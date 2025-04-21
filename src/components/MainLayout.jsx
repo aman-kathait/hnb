@@ -5,7 +5,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 const MainLayout = () => {
   return (
-    <div>
+    <div className='bg-[#F5F9F5]'>
       <Navbar/>
       <LeftSidebar/>
       <Footer/>
