@@ -9,7 +9,7 @@ const SuggestedUsers = () => {
 
     return (
         <div className='my-6 bg-[#F4FFF6] rounded-2xl h-100'>
-            <div className='mx-8 flex items-center justify-between text-sm w-56 rounded-2xl'>
+            <div className='mx-8 flex items-center justify-between text-sm w-64 rounded-2xl'>
                 <h1 className='text-lg font-semibold text-[#1D5C3B] mt-2 '>Suggested for you</h1>
             </div>
             <div className='mx-6 '>
@@ -30,7 +30,7 @@ const SuggestedUsers = () => {
                                 <h1 className='text-base font-medium'>
                                     <Link to={`/profile/${user?._id}`}>{user?.username}</Link>
                                 </h1>
-                                <span className='text-gray-600 text-sm font-semibold'>{user?.bio || 'Bio here...'}</span>
+                                <span className='text-gray-600 text-sm font-semibold'>{user?.bio || 'Computer Science'}</span>
                             </div>
                         </div>
                         <span className='text-[#1D5C3B] text-xs font-bold cursor-pointer hover:text-[#3495d6] p-1 rounded-lg px-2 border border-[#1D5C3B]'>Follow</span>

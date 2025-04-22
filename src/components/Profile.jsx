@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import React, { useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import useGetUserProfile from '@/hooks/useGetUserProfile';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -14,102 +14,109 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState('posts');
 
   const { userProfile, user } = useSelector(store => store.auth);
-
   const isLoggedInUserProfile = user?._id === userProfile?._id;
   const isFollowing = false;
-
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  }
-
   const displayedPost = activeTab === 'posts' ? userProfile?.posts : userProfile?.bookmarks;
 
   return (
-    <div className='flex max-w-5xl justify-center ml-55 mt-12 pl-10'>
-      <div className='flex flex-col gap-20 p-8'>
-        <div className='grid grid-cols-2'>
-          <section className='flex items-center justify-center'>
-            <Avatar className='h-32 w-32'>
-              <AvatarImage src={userProfile?.profilePicture} alt="profilephoto" />
+    <div className="flex justify-center w-full px-4 py-8 mt-14 ml-40">
+      <div className="w-full max-w-6xl">
+        {/* Top Profile Section */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-center mb-12">
+          {/* Avatar */}
+          <div className="flex justify-center ml-2">
+            <Avatar className="w-32 h-32 border-4 border-white shadow-md">
+              <AvatarImage src={userProfile?.profilePicture} alt="profile" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-          </section>
-          <section>
-            <div className='flex flex-col gap-5'>
-              <div className='flex items-center gap-2'>
-                <span>{userProfile?.username}</span>
-                {
-                  isLoggedInUserProfile ? (
-                    <>
-                      <Link to="/account/edit"><Button variant='secondary' className='hover:bg-gray-200 h-8'>Edit profile</Button></Link>
-                      <Button variant='secondary' className='hover:bg-gray-200 h-8'>View archive</Button>
-                      <Button variant='secondary' className='hover:bg-gray-200 h-8'>Ad tools</Button>
-                    </>
-                  ) : (
-                    isFollowing ? (
-                      <>
-                        <Button variant='secondary' className='h-8'>Unfollow</Button>
-                        <Button variant='secondary' className='h-8'>Message</Button>
-                      </>
-                    ) : (
-                      <Button className='bg-[#0095F6] hover:bg-[#3192d2] h-8'>Follow</Button>
-                    )
-                  )
-                }
+          </div>
+
+          {/* Info Section */}
+          <div className="md:col-span-4">
+            <div className="flex flex-col gap-4">
+              {/* Username and Buttons */}
+              <div className="flex items-center flex-wrap gap-4">
+                <span className="text-2xl font-semibold text-gray-900">
+                  {userProfile?.fullName}
+                </span>
+                {isLoggedInUserProfile ? (
+                  <Link to="/account/edit">
+                    <Button variant="outline" className="h-8">Edit profile</Button>
+                  </Link>
+                ) : isFollowing ? (
+                  <>
+                    <Button variant="outline" className="h-8">Unfollow</Button>
+                    <Button variant="outline" className="h-8">Message</Button>
+                  </>
+                ) : (
+                  <Button className="bg-[#0095F6] hover:bg-[#1877f2] text-white h-8">Follow</Button>
+                )}
               </div>
-              <div className='flex items-center gap-4'>
-                <p><span className='font-semibold'>{userProfile?.posts.length} </span>posts</p>
-                <p><span className='font-semibold'>{userProfile?.followers.length} </span>followers</p>
-                <p><span className='font-semibold'>{userProfile?.following.length} </span>following</p>
+
+              {/* Stats */}
+              <div className="flex items-center gap-6 text-sm text-gray-700">
+                <span><strong>{userProfile?.posts.length}</strong> posts</span>
+                <span><strong>{userProfile?.followers.length}</strong> followers</span>
+                <span><strong>{userProfile?.following.length}</strong> following</span>
               </div>
-              <div className='flex flex-col gap-1'>
-                <span className='font-semibold'>{userProfile?.bio || 'bio here...'}</span>
-                <Badge className='w-fit' variant='secondary'><AtSign /> <span className='pl-1'>{userProfile?.username}</span> </Badge>
-                <span>🤯Learn code with patel mernstack style</span>
-                <span>🤯Turing code into fun</span>
-                <span>🤯DM for collaboration</span>
+
+              {/* Bio Section */}
+              <div className="space-y-1">
+                <Badge variant="secondary bg-gray-800" className="w-fit text-sm">
+                  <AtSign className="h-4 w-4" />
+                  <span className="pl-1">{userProfile?.username}</span>
+                </Badge>
+                <p className="text-sm text-gray-800 font-medium mt-2">{userProfile?.bio || 'bio here...'}</p>
+                <p className="text-sm text-gray-600">🔥 MERN Stack Dev | 🤝 DM for Collab | 💡 Learning every day</p>
               </div>
             </div>
-          </section>
+          </div>
         </div>
-        <div className='border-t border-t-gray-200'>
-          <div className='flex items-center justify-center gap-10 text-sm'>
-            <span className={`py-3 cursor-pointer ${activeTab === 'posts' ? 'font-bold' : ''}`} onClick={() => handleTabChange('posts')}>
-              POSTS
-            </span>
-            <span className={`py-3 cursor-pointer ${activeTab === 'saved' ? 'font-bold' : ''}`} onClick={() => handleTabChange('saved')}>
-              SAVED
-            </span>
-            <span className='py-3 cursor-pointer'>REELS</span>
-            <span className='py-3 cursor-pointer'>TAGS</span>
+
+        {/* Tabs */}
+        <div className="border-t border-gray-200 mb-4">
+          <div className="flex justify-center space-x-10 text-sm font-medium mt-4">
+            {['posts', 'saved', 'reels', 'tags'].map(tab => (
+              <span
+                key={tab}
+                className={`cursor-pointer py-2 px-3 ${
+                  activeTab === tab ? 'font-bold border-b-2 border-black' : 'text-gray-500'
+                }`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab.toUpperCase()}
+              </span>
+            ))}
           </div>
-          <div className='grid grid-cols-3 gap-1'>
-            {
-              displayedPost?.map((post) => {
-                return (
-                  <div key={post?._id} className='relative group cursor-pointer'>
-                    <img src={post.image} alt='postimage' className='rounded-sm my-2 w-full aspect-square object-cover' />
-                    <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                      <div className='flex items-center text-white space-x-4'>
-                        <button className='flex items-center gap-2 hover:text-gray-300'>
-                          <Heart />
-                          <span>{post?.likes.length}</span>
-                        </button>
-                        <button className='flex items-center gap-2 hover:text-gray-300'>
-                          <MessageCircle />
-                          <span>{post?.comments.length}</span>
-                        </button>
-                      </div>
-                    </div>
+        </div>
+
+        {/* Posts Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 m-3">
+          {displayedPost?.map(post => (
+            <div key={post?._id} className="relative group cursor-pointer">
+              <img
+                src={post.image}
+                alt="post"
+                className="aspect-square object-cover w-full rounded-sm"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="flex items-center space-x-6 text-white">
+                  <div className="flex items-center gap-2">
+                    <Heart className="w-5 h-5" />
+                    <span>{post?.likes?.length}</span>
                   </div>
-                )
-              })
-            }
-          </div>
+                  <div className="flex items-center gap-2">
+                    <MessageCircle className="w-5 h-5" />
+                    <span>{post?.comments?.length}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

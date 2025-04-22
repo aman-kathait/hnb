@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
-import { Bookmark, MessageCircle, MoreHorizontal, Send } from 'lucide-react'
+import { Bookmark, MessageCircle, MoreHorizontal, Send, MessageSquareText } from 'lucide-react'
 import { Button } from './ui/button'
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialog from './CommentDialog'
@@ -109,83 +109,90 @@ const Post = ({ post }) => {
         }
     }
     return (
-        <div className='my-8 w-full max-w-sm mx-auto'>
+        <div className='my-8 w-full max-w-sm mx-auto  sm:max-w-xl  p-4 rounded-2xl shadow-lg  sm:ml-24'>
             <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-2'>
-                    <Avatar>
-                        <AvatarImage src={post.author?.profilePicture} alt="post_image" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <div className='flex items-center gap-3'>
-                        <h1>{post.author?.username}</h1>
-                       {user?._id === post.author._id &&  <Badge variant="secondary">Author</Badge>}
-                    </div>
+            <div className='flex items-center gap-2 '>
+                <div >
+                <Avatar className="w-10 h-10 rounded-full bg-green-500 text-white font-bold text-sm flex items-center justify-center">
+                <AvatarImage src={post.author?.profilePicture} alt="post_image" />
+                <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
                 </div>
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <MoreHorizontal className='cursor-pointer' />
-                    </DialogTrigger>
-                    <DialogContent className="flex flex-col items-center text-sm text-center">
-                        {
-                        post?.author?._id !== user?._id && <Button variant='ghost' className="cursor-pointer w-fit text-[#ED4956] font-bold">Unfollow</Button>
-                        }
-                        
-                        <Button variant='ghost' className="cursor-pointer w-fit">Add to favorites</Button>
-                        {
-                            user && user?._id === post?.author._id && <Button onClick={deletePostHandler} variant='ghost' className="cursor-pointer w-fit">Delete</Button>
-                        }
-                    </DialogContent>
-                </Dialog>
+                <div className='flex flex-col '>
+                <div className='flex items-center gap-2'>
+                    <h1 className='text-sm font-semibold text-green-900'>{post.author?.username}</h1>
+                    {user?._id === post.author._id &&  <Badge variant="secondary">Author</Badge>}
+                </div>
+                <div className='text-xs text-gray-500'>
+                    10 minutes ago
+                </div>
+                </div>
             </div>
+            <Dialog>
+                <DialogTrigger asChild>
+                <MoreHorizontal className='cursor-pointer' />
+                </DialogTrigger>
+                <DialogContent className="flex flex-col items-center text-sm text-center">
+                {
+                post?.author?._id !== user?._id && <Button variant='ghost' className="cursor-pointer w-fit text-[#ED4956] font-bold">Unfollow</Button>
+                }
+                
+                <Button variant='ghost' className="cursor-pointer w-fit">Add to favorites</Button>
+                {
+                    user && user?._id === post?.author._id && <Button onClick={deletePostHandler} variant='ghost' className="cursor-pointer w-fit">Delete</Button>
+                }
+                </DialogContent>
+            </Dialog>
+            </div>
+            <p className='text-sm  my-2 '>
+            {post.caption}
+            </p>
             <img
-                className='rounded-sm my-2 w-full aspect-square object-cover'
-                src={post.image}
-                alt="post_img"
+            className='w-full rounded-lg object-cover h-80'
+            src={post.image}
+            alt="post_img"
             />
 
             <div className='flex items-center justify-between my-2'>
-                <div className='flex items-center gap-3'>
-                    {
-                        liked ? <FaHeart onClick={likeOrDislikeHandler} size={'24'} className='cursor-pointer text-red-600' /> : <FaRegHeart onClick={likeOrDislikeHandler} size={'22px'} className='cursor-pointer hover:text-gray-600' />
-                    }
+            <div className='flex items-center gap-4 mt-4 text-gray-600 text-sm'>
+                {
+                liked ? <FaHeart onClick={likeOrDislikeHandler} size={'24'} className='cursor-pointer text-red-600' /> : <FaRegHeart onClick={likeOrDislikeHandler} size={'22px'} className='cursor-pointer hover:text-gray-600' />
+                }
 
-                    <MessageCircle onClick={() => {
-                        dispatch(setSelectedPost(post));
-                        setOpen(true);
-                    }} className='cursor-pointer hover:text-gray-600' />
-                    <Send className='cursor-pointer hover:text-gray-600' />
-                </div>
-                <Bookmark onClick={bookmarkHandler} className='cursor-pointer hover:text-gray-600' />
+                <MessageSquareText  onClick={() => {
+                dispatch(setSelectedPost(post));
+                setOpen(true);
+                }} className='cursor-pointer hover:text-gray-600' />
+                <Send className='cursor-pointer hover:text-gray-600' />
+            </div>
+            <Bookmark onClick={bookmarkHandler} className='cursor-pointer hover:text-gray-600' />
             </div>
             <span className='font-medium block mb-2'>{postLike} likes</span>
-            <p>
-                <span className='font-medium mr-2'>{post.author?.username}</span>
-                {post.caption}
-            </p>
+           
             {
-                comment.length > 0 && (
-                    <span onClick={() => {
-                        dispatch(setSelectedPost(post));
-                        setOpen(true);
-                    }} className='cursor-pointer text-sm text-gray-400'>View all {comment.length} comments</span>
-                )
+            comment.length > 0 && (
+                <span onClick={() => {
+                dispatch(setSelectedPost(post));
+                setOpen(true);
+                }} className='cursor-pointer text-sm text-gray-400'>View all {comment.length} comments</span>
+            )
             }
             <CommentDialog open={open} setOpen={setOpen} />
             <div className='flex items-center justify-between'>
-                <input
-                    type="text"
-                    placeholder='Add a comment...'
-                    value={text}
-                    onChange={changeEventHandler}
-                    className='outline-none text-sm w-full'
-                />
-                {
-                    text && <span onClick={commentHandler} className='text-[#3BADF8] cursor-pointer'>Post</span>
-                }
+            <input
+                type="text"
+                placeholder='Add a comment...'
+                value={text}
+                onChange={changeEventHandler}
+                className='outline-none text-sm w-full'
+            />
+            {
+                text && <span onClick={commentHandler} className='text-[#3BADF8] cursor-pointer'>Post</span>
+            }
 
             </div>
         </div>
-    )
+        )
 }
 
 export default Post

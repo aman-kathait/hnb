@@ -8,6 +8,11 @@ import {
   PlusSquare,
   Search,
   TrendingUp,
+  MessageSquareMore,
+  MessageSquareText,
+  Megaphone 
+
+
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -64,16 +69,16 @@ const LeftSidebar = () => {
       // text: "Profile",
     
     { icon: <Home />, text: "Home" },
-    { icon: <Search />, text: "Search" },
+    { icon: <Megaphone />, text: "Announcement" },
     { icon: <TrendingUp />, text: "Explore" },
-    { icon: <MessageCircle />, text: "Messages" },
+    { icon: <MessageSquareMore />, text: "Messages" },
     { icon: <Heart />, text: "Notifications" },
     { icon: <PlusSquare />, text: "Create Post" },
     { icon: <LogOut />, text: "Log Out" },
   ];
   return (
     <div className="hidden md:block fixed top-16  bg-[#EAF4EC] z-10 left-0 px-4 border-r w-[19%] h-screen">
-      <div className="flex  items-center mt-8 bg-[#2F7B48] p-1 rounded-lg "> 
+      <div className="flex  items-center mt-8 bg-[#2F7B48] p-1 rounded-lg pt-2 pb-2 pl-2 "> 
         <div className="flex" onClick={()=>sidebarHandler("Profile")}>
         <Avatar className="w-15 h-15 cursor-pointer ">
           <AvatarImage src={user?.profilePicture} alt="@shadcn" />
