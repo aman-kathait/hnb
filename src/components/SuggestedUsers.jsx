@@ -30,7 +30,7 @@ const SuggestedUsers = () => {
                                 <h1 className='text-base font-medium'>
                                     <Link to={`/profile/${user?._id}`}>{user?.username}</Link>
                                 </h1>
-                                <span className='text-gray-600 text-sm font-semibold'>{user?.bio || 'Computer Science'}</span>
+                                <span className='text-gray-600 text-sm font-semibold'>{user?.department || 'Computer'}</span>
                             </div>
                         </div>
                         <span className='text-[#1D5C3B] text-xs font-bold cursor-pointer hover:text-[#3495d6] p-1 rounded-lg px-2 border border-[#1D5C3B]'>Follow</span>

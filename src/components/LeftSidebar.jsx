@@ -76,6 +76,7 @@ const LeftSidebar = () => {
     { icon: <PlusSquare />, text: "Create Post" },
     { icon: <LogOut />, text: "Log Out" },
   ];
+  console.log("User data:", user);
   return (
     <div className="hidden md:block fixed top-16  bg-[#EAF4EC] z-10 left-0 px-4 border-r w-[19%] h-screen">
       <div className="flex  items-center mt-8 bg-[#2F7B48] p-1 rounded-lg pt-2 pb-2 pl-2 "> 
@@ -85,14 +86,15 @@ const LeftSidebar = () => {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         </div>
+        
 
         <div className="ml-3">
           <div className="font-semibold cursor-pointer hover:underline text-white">
-            Aman Kathait
           {user.fullName}
+          {/* {user.username} */}
           </div>
           <div className="text-sm font-semibold font-sans text-[#B9FBC0]">
-          Computer Science
+          
           {user.department}
           </div>
           

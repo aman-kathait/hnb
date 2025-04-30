@@ -1,12 +1,14 @@
-import SuggestedUsers from "@/components/SuggestedUsers";
+
+// import SuggestedUsers from "@/components/SuggestedUsers";
 import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
-    suggestedUsers: [],
+    SuggestedUsers: [],
     userProfile: null,
+   
   },
   reducers: {
     setAuthUser: (state, action) => {
@@ -18,6 +20,7 @@ const authSlice = createSlice({
     setUserProfile: (state, action) => {
       state.userProfile = action.payload;
     },
+    
   },
 });
 export const { setAuthUser,setSuggestedUsers,setUserProfile } = authSlice.actions;
