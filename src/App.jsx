@@ -1,46 +1,64 @@
-import  Signup from './components/signup'
+import Signup from './components/signup'
 import MainLayout from './components/MainLayout'
 import Home from './components/Home'
 import Login from './components/Login'
-import { createBrowserRouter,RouterProvider } from 'react-router-dom' 
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import Profile from './components/Profile'
 import EditProfile from './components/EditProfile'
-const browserRouter=createBrowserRouter([
+import { useDispatch, useSelector } from 'react-redux'
+
+
+function ProtectedRoute({ children }) {
+  const { user } = useSelector((store) => store.auth);
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
+const browserRouter = createBrowserRouter([
   {
-    path:"/",
-    element:<MainLayout/>,
-    children:[
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
+    children: [
       {
-        path:"/",
-        element:<Home/>
+        path: "/",
+        element: <Home />
       },
       {
-        path:"/profile/:id",
-        element:<Profile/>
+        path: "/profile/:id",
+        element: <Profile />
       },
       {
-        path:"/account/edit",
-        element:<EditProfile/>
+        path: "/account/edit",
+        element: <EditProfile />
       }
+      // {
+      //   path: "/chat",
+      //   element: <ChatPage />
+      // }
     ]
   },
   {
-    path:'/login',
-    element:<Login/>
+    path: '/login',
+    element: <Login />
   },
   {
-    path:'/signup',
-    element:<Signup/>
+    path: '/signup',
+    element: <Signup />
   },
 ])
-function App() {
-  // const [count, setCount] = useState(0)
 
+function App() {
   return (
     <>
-      <RouterProvider router={browserRouter}/>
+      <RouterProvider router={browserRouter} />
     </>
   )
 }
 
-export default App
+export default App 
